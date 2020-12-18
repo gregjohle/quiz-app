@@ -24,13 +24,32 @@ main {
 }
 
 div {
-  display: block;
+  display: border-box;
   text-align: center;
+  background-color: rgb(205, 205, 207);
+  width: 60%;
+  padding: 2% 0;
+}
+
+div form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div form ul li {
+  text-align: left;
 }
 
 button {
   background-color: darkslategrey;
   color: antiquewhite;
+}
+
+footer {
+  display: border-box;
+  padding: 2%;
 }
 
 /** 
