@@ -31,6 +31,10 @@ div {
   padding: 2% 0;
 }
 
+.hidden {
+  display: none;
+}
+
 div form {
   display: flex;
   flex-direction: column;
