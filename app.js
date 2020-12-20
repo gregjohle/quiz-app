@@ -298,24 +298,9 @@ function resetQuizValues() {
 
 function startOver() {
     $('.hero').on('click', '.startOver', event => {
-        resetQuizValues();
-        renderNewQuiz();
-        console.log(store.quizStarted);
-        console.log(store.questionNumber);
-        console.log(store.score);
+        location.reload();
     });
 };
-
-function beginAgain() {
-    $('.beginQuizAgain').on('click', event => {
-        console.log('The Quiz is starting');
-        startQuiz
-        renderQuest();
-    });
-};
-
-// when done, the final score should be shown, and a button to retake the quiz
-
 
 
 $(function() {
@@ -323,7 +308,6 @@ $(function() {
     nextQuestion();
     renderResult();
     startOver();
-    beginAgain();
 });
 
 /**
