@@ -60,103 +60,63 @@ const store = {
 };
 
 // This clears the Div for formatting
-function clearHero() {
+function clearTemplate() {
     $('.hero').html('');
+    $('.info').html('');
 };
 
-// This formats the HTML for insertion
-function formatHero() {
-    var currentQuestionNumber = `<h1>3D Printing Facts</h1>
-    <div class="indexInfo">
-        <h3 class="currQuestNum"></h3>
-        <h3>of 5</h3>
-    </div>
-    <div class="scoreInfo">
-    <h3 class="numberCorrect"></h3>
-    <h3>Correct</h3>
-    </div>`
+// This is the template for the quiz info
+function quizInfoTemplate(questionNumber, numberCorrect) {
+    return `<h1>3D Printing Facts</h1>
+        <h3> ${questionNumber} OF 5</h3>
+        <h3> ${numberCorrect} CORRECT</h3>`
+};
 
-    $('.info').append().html(currentQuestionNumber);
+// This calls the info template to display the current question number and score
+function quizInfo() {
+    var quesNo = store.questionNumber + 1;
+    var numCorr = store.score;
 
-    $('.hero').html(`
-        <p class="currentQuestion"></p>
-        <form id="question">
-            <ul>
-                <li>
-                    <input type="radio" id="ans1" name="ans" value="" required>
-                    <label for="ans1" class="ans1"></label>
-                </li>
-                <li>
-                    <input type="radio" id="ans2" name="ans" value="" required>
-                    <label for="ans2" class="ans2"></label>
-                </li>
-                <li>
-                    <input type="radio" id="ans3" name="ans" value="" required>
-                    <label for="ans3" class="ans3"></label>
-                </li>
-                <li>
-                    <input type="radio" id="ans4" name="ans" value="" required>
-                    <label for="ans4" class="ans4"></label>
-                </li>
-            </ul>
-        </form>
-        <button type="submit" id ="submitAnswer" form="question">Submit</button>    
-    `);
-}
+    $('.info').append(quizInfoTemplate(quesNo, numCorr));
+};
 
-// This inserts the current question string into the div p
-function generateQuestion() {
+// This is the template for the questions
+function questionTemplate(quest, a1, a2, a3, a4) {
+    return `<p>${quest}</p>
+    <form id="question">
+    <ul>
+        <li>
+            <input type="radio" id="ans1" name="ans" value="${a1}" required>
+            <label for="ans1" class="ans1">${a1}</label>
+        </li>
+        <li>
+            <input type="radio" id="ans1" name="ans" value="${a2}" required>
+            <label for="ans1" class="ans1">${a2}</label>
+        </li>
+        <li>
+            <input type="radio" id="ans1" name="ans" value="${a3}" required>
+            <label for="ans1" class="ans1">${a3}</label>
+        </li>
+        <li>
+            <input type="radio" id="ans1" name="ans" value="${a4}" required>
+            <label for="ans1" class="ans1">${a4}</label>
+        </li>
+    </ul>
+    </form>
+    <button type="submit" id ="submitAnswer" form="question">Submit</button>
+    `
+};
+
+// This calls the question template with the current question info from the store
+function question() {
     var qHero = store.questions[store.questionNumber].question;
-
-    $('.currentQuestion').append(qHero);
-};
-
-// This parses the current question answers and inserts them into the div form
-function generateAnswers() {
     var ansOne = store.questions[store.questionNumber].answers[0];
     var ansTwo = store.questions[store.questionNumber].answers[1];
     var ansThree = store.questions[store.questionNumber].answers[2];
     var ansFour = store.questions[store.questionNumber].answers[3];
 
-    $('input[id="ans1"]').val(ansOne);
-    $('label[for="ans1"]').append(ansOne);
-
-    $('input[id="ans2"]').val(ansTwo);
-    $('label[for="ans2"]').append(ansTwo);
-
-    $('input[id="ans3"]').val(ansThree);
-    $('label[for="ans3"]').append(ansThree);
-
-    $('input[id="ans4"]').val(ansFour);
-    $('label[for="ans4"]').append(ansFour);
-
+    $('.hero').append(questionTemplate(qHero, ansOne, ansTwo, ansThree, ansFour));
 };
-
-// This inserts the question number into the header
-function generateQuestionNumber() {
-    var currQuest = store.questionNumber + 1;
-    $('.currQuestNum').replaceWith(currQuest);
-};
-
-// This inserts the current score into the header
-function generateScore() {
-    var currScore = store.score;
-    $('.numberCorrect').replaceWith(currScore);
-};
-
-function clearScoreAndQuestionNumber() {
-    var currentQuestionNumber = `<h1>3D Printing Facts</h1>
-    <div class="indexInfo">
-        <h3 class="currQuestNum"></h3>
-        <h3>of 5</h3>
-    </div>
-    <div class="scoreInfo">
-    <h3 class="numberCorrect"></h3>
-    <h3>Correct</h3>
-    </div>`
-
-    $('.info').append().html(currentQuestionNumber);
-}
 
 // This starts the quiz
 function startQuiz() {
@@ -164,13 +124,10 @@ function startQuiz() {
 }
 
 // This renders the page 
-function renderQuest() {
-    clearHero();
-    formatHero();
-    generateQuestionNumber();
-    generateScore();
-    generateQuestion();
-    generateAnswers();
+function render() {
+    clearTemplate();
+    quizInfo();
+    question();
 };
 
 // This starts the quiz with the first button is pressed
@@ -178,81 +135,66 @@ function letsBegin() {
     $('.beginQuiz').on('click', event => {
         console.log('The Quiz is starting');
         startQuiz();
-        renderQuest();
+        render();
     });
 };
-// after a choice is made and the submit button is pushed, there should be feedback if it was the correct answer or not
 
-// if the answer is correct, the number correct should increase
+// This is the template for a correct result
+function correctTemplate() {
+    return `<p class="right">You are correct</p>
+    <button class="nextQuestion">
+            <span>Continue</span>
+        </button>`
+};
 
-// This dieplays a correct result
+// Moves 'correct' template to page
 function renderCorrect() {
-    clearScoreAndQuestionNumber();
-    generateQuestionNumber();
-    generateScore();
-    $('.hero').html(`
-        <p class="right">You are correct</p>
-        <button class="nextQuestion">
-                <span>Continue</span>
-            </button>
-    `);
+    $('.hero').append(correctTemplate());
 };
 
-// This formats for the incorrect result
-function formatIncorect() {
-    $('.hero').html(`
-        <p class="wrong">You are not correct</p>
-        <p>The Correct answer is</p>
-        <p class="rightAns"></p>
-        <button class="nextQuestion">
-                <span>Continue</span>
-            </button>
-    `);
+// Template for incorrect result
+function incorrectTemplate(corrAns) {
+    return `<p class="wrong">You are not correct</p>
+    <p>The Correct answer is:</p>
+    <p>${corrAns}</p>
+    <button class="nextQuestion">
+            <span>Continue</span>
+        </button>`
 };
 
-// This renders the incorrect result, and informs of the correct result
+// moves 'incorrect' template into page, with correct answer
 function renderIncorrect() {
-    formatIncorect();
-    clearScoreAndQuestionNumber();
-    generateQuestionNumber();
-    generateScore();
-    $('.rightAns').append(store.questions[store.questionNumber].correctAnswer);
-}
+    var correctAns = store.questions[store.questionNumber].correctAnswer;
+    $('.hero').append(incorrectTemplate(correctAns));
+};
 
+
+
+// move on to the next question
 function indexQuestion() {
     store.questionNumber = store.questionNumber + 1;
 };
 
-function renderEnd() {
-    $('.hero').html(`
+// Template for the end of the quiz
+function endTemplate() {
+    return `
         <p>Congratulations! You have completed the quiz!</p>
         <p>I hope you have learned something new about 3D Printing.</p>
         <p>Would you like to take the quiz again?</p>
         <button class="startOver">
                 <span>Start Over?</span>
             </button>
-    `);
+    `;
 };
 
-function nextQuestion() {
-    $('.hero').on('click', '.nextQuestion', event => {
-        var endOfQuiz = store.questions.length - 1;
-        var currNum = store.questionNumber;
-        if (currNum < endOfQuiz) {
-            console.log('Moving on');
-            indexQuestion();
-            renderQuest();
-        };
-        if (endOfQuiz === currNum) {
-            clearHero();
-            clearScoreAndQuestionNumber();
-            generateQuestionNumber();
-            generateScore();
-            renderEnd();
-        };
-    });
+// formats for end, and moves end template into page
+function renderEnd() {
+    clearTemplate();
+    quizInfo();
+    $('.hero').append(endTemplate());
 };
 
+// increase the score
 function scoreIncrease() {
     store.score += 1;
 };
@@ -266,39 +208,76 @@ function renderResult() {
         var cAns = store.questions[store.questionNumber].correctAnswer;
         if (eAns === cAns) {
             scoreIncrease();
-            clearScoreAndQuestionNumber();
-            generateScore();
-            generateQuestionNumber();
+            clearTemplate();
+            quizInfo();
             renderCorrect();
         }
         if (eAns != cAns) {
+            clearTemplate();
+            quizInfo();
             renderIncorrect();
         }
     });
 };
 
-function renderNewQuiz() {
-    $('.info').html(`
-    <h1>3D Printing Facts</h1>
-    `);
-    $('.hero').html(`
-    <h3>Welcome to the Quiz!</h3>
-    <p>This is a short quiz to test your knowledge of 3D printing. When you are ready to begin, press the button below!</p>
-    <button class="beginQuizAgain">
-        <span>START</span>
-    </button>
-    `);
+// after feedback is given, this moves on to the next question, or to the end page
+function nextQuestion() {
+    $('.hero').on('click', '.nextQuestion', event => {
+        var endOfQuiz = store.questions.length - 1;
+        var currNum = store.questionNumber;
+        if (currNum < endOfQuiz) {
+            console.log('Moving on');
+            indexQuestion();
+            render();
+        };
+        if (endOfQuiz === currNum) {
+            clearTemplate();
+            renderEnd();
+        };
+    });
 };
 
+// Template for new quiz info section
+function newQuizInfoTemplate() {
+    return `<h1>3D Printing Facts</h1>`;
+};
+
+// Template for new quiz hero section
+function newQuizHeroTemplate() {
+    return `<h3>Welcome to the Quiz!</h3>
+    <p>This is a short quiz to test your knowledge of 3D printing. When you are ready to begin, press the button below!</p>
+    <button class="oneMoreTime">
+        <span>START</span>
+    </button>`
+};
+
+// moves new quiz templates into the page
+function renderNewQuiz() {
+    clearTemplate();
+    $('.info').append(newQuizInfoTemplate());
+    $('.hero').append(newQuizHeroTemplate());
+};
+
+// resets the quiz store values
 function resetQuizValues() {
     store.quizStarted = false;
     store.questionNumber = 0;
     store.score = 0;
 }
 
+// Restarts the quiz from the beginning
 function startOver() {
     $('.hero').on('click', '.startOver', event => {
-        location.reload();
+        resetQuizValues();
+        renderNewQuiz();
+    });
+};
+
+function oneMoreTime() {
+    $('.hero').on('click', '.oneMoreTime', event => {
+        startQuiz();
+        render();
+        console.log(store.quizStarted);
     });
 };
 
@@ -308,6 +287,7 @@ $(function() {
     nextQuestion();
     renderResult();
     startOver();
+    oneMoreTime();
 });
 
 /**
