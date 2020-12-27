@@ -108,15 +108,14 @@ footer {
         justify-content: flex-start;
         padding-left: 3%;
     }
-
     main div h3 {
         margin: 0 auto;
     }
-
     button {
         margin-left: 80%;
     }
 }
+
 
 /** 
   * If you are unclear on how to utilize a mobile-first, responsive technique to write your CSS, here is an example: 

@@ -132,7 +132,7 @@ function render() {
 
 // This starts the quiz with the first button is pressed
 function letsBegin() {
-    $('.beginQuiz').on('click', event => {
+    $('.hero').on('click', '.beginQuiz', event => {
         console.log('The Quiz is starting');
         startQuiz();
         render();
@@ -246,7 +246,7 @@ function newQuizInfoTemplate() {
 function newQuizHeroTemplate() {
     return `<h3>Welcome to the Quiz!</h3>
     <p>This is a short quiz to test your knowledge of 3D printing. When you are ready to begin, press the button below!</p>
-    <button class="oneMoreTime">
+    <button class="beginQuiz">
         <span>START</span>
     </button>`
 };
@@ -272,15 +272,6 @@ function startOver() {
         renderNewQuiz();
     });
 };
-
-function oneMoreTime() {
-    $('.hero').on('click', '.oneMoreTime', event => {
-        startQuiz();
-        render();
-        console.log(store.quizStarted);
-    });
-};
-
 
 $(function() {
     letsBegin();
