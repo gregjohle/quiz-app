@@ -89,14 +89,17 @@ function questionTemplate(quest, a1, a2, a3, a4) {
             <input type="radio" id="ans1" name="ans" value="${a1}" required>
             <label for="ans1" class="ans1">${a1}</label>
         </li>
+        <br>
         <li>
             <input type="radio" id="ans1" name="ans" value="${a2}" required>
             <label for="ans1" class="ans1">${a2}</label>
         </li>
+        <br>
         <li>
             <input type="radio" id="ans1" name="ans" value="${a3}" required>
             <label for="ans1" class="ans1">${a3}</label>
         </li>
+        <br>
         <li>
             <input type="radio" id="ans1" name="ans" value="${a4}" required>
             <label for="ans1" class="ans1">${a4}</label>
